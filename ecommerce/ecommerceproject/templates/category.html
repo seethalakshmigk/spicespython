@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block metadescription %}
+
+{% if category %}
+{{ category.description | truncatewords:155 }}
+{% else %}
+
+welcome to the world of your choice
+{% endif %}
+
+{% endblock %}
+
+
+{% block title %}
+{% if category %}:
+{{ category.name}}
+
+{% else %}
+explore the new collections..!
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if category %}
+<div>
+    <div class="row my_row_class">
+        <div class="mx_auto">
+        <p>
+            <a href="{% url 'shop:allpcat' %}">Our Product Collection</a>
+        </p>
+    </div>
+        </div>
+</div>
+
+{% endif %}
+<div class="mx-auo">
+    {% if category %}
+
+    <img class="my-image" src="{{category.image.url}}" alt="{{category.name}}" >
+
+    <br>
+    <div>
+        <h4 class="text-center-my-title">{{category.name}}</h4>
+        <p class="text-justify">
+            {{category.description}}
+        </p>
+        {% else %}
+        <div>
+        <img class="my-image my-image-padding" src="{% static 'image/banners.jpeg' %}"  height="200px">
+
+    </div>
+    <br>
+    <div>
+        <h1 class="text-center my-title" style=""><b>Our Product Collection</b></h1>
+        <p class="text-justify">Demo content is probably one of the least talked about items in a designer’s toolbox. Yet, it’s also very useful. While we often see it as a means to populate a mockup or show what a CMS theme is capable of, there are other good uses.
+
+For instance, it can serve as a placeholder during site development – you know, while you wait for the “real” stuff to arrive. This helps you continue to move forward on a project that could otherwise be stalled.
+
+Likewise, demo content can live up to its name by helping you demonstrate various processes. Things like training videos or documentation can use bits and pieces to show users how a certain feature works.
+
+Overall, it’s something that can be quite handy to have around. And there are several resources out there to fill your specific needs. Below is a selection of some of the coolest demo content generators on the web. Enjoy!
+
+</p>
+    </div>
+    </div>
+    </div>
+    {% endif %}
+
+
+
+
+   <section style="background-color: #eee;">
+    <div class="container">
+        <div class="row">
+            {% for product in products.object_list %}
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="card">
+                        <a href="{{product.get_url}}">
+                            <img class="card-img-top my-image" src="{{product.image.url}}" alt="{{product.name}}" style="height:220px;">
+                        </a><br><br>
+                        <div class="card-body">
+                            <h5 class="card-title">{{product.name}}</h5>
+                            <p class="card-text">{{product.price}}</p>
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+      <div class="mx_auto">
+    {% if products.paginator.num_pages > 1 %}
+    <hr>
+    <div>
+        {% for pg in products.paginator.page_range %}
+        <a href="?page={{pg}}" class="btn btn-light btn-sm {% if products.number == pg %} active {% endif %} ">{{pg}}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+        </div>
+
+
+        </div>
+
+
+{% endblock %}
